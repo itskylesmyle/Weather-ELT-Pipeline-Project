@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_weather_hourly
+    columns:
+      - name: city_name
+        data_tests: [not_null]
+      - name: observation_ts
+        data_tests: [not_null]
+
+  - name: dim_city
+    columns:
+      - name: city_key
+        data_tests: [unique, not_null]
+
+  - name: dim_date
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+
+  - name: fct_weather_hourly
+    columns:
+      - name: weather_key
+        data_tests: [unique, not_null]
+      - name: city_key
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_city')
+              field: city_key
+      - name: date_key
+        data_tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+  - name: mart_weather_daily
+    columns:
+      - name: city_key
+        data_tests: [not_null]
