@@ -29,6 +29,7 @@ Every day, Airflow pulls hourly weather for Salt Lake City, Provo, Park City, an
 | Marts | `mart_weather_daily` | Daily min, max and average per city |
 | Marts | `mart_inversion_hourly`, `mart_inversion_daily` | Inversion proxy, described below |
 
+Docker Desktop Setup
 
 ![Docker Desktop Setup](docs/images/Docker-Desktop.png)
 
