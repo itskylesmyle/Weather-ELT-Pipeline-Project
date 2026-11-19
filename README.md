@@ -10,7 +10,6 @@ RESULTS: On November 16th this year, there was a mild inversion in the morning. 
 
 ![Wasatch Front valley cities vs Park City hourly temperature](docs/images/Valley-vs-Park-City.png)
 
-*When Park City (higher elevation) runs warmer than the valley cities, cold air is trapped on the valley floor: a temperature inversion.*
 
 ## What it does
 
@@ -36,6 +35,8 @@ The Airflow DAG creates the raw table if needed, loads one city per task in para
 | Fact | `fct_weather_hourly` | Hourly measurements (incremental merge) |
 | Marts | `mart_weather_daily` | Daily min, max and average per city |
 | Marts | `mart_inversion_hourly`, `mart_inversion_daily` | Inversion proxy, described below |
+
+![Docker Desktop Setup](docs/images/Docker-Desktop.png)
 
 ## Analysis: Wasatch Front inversion proxy
 
