@@ -1,8 +1,11 @@
-# Utah Weather ELT Pipeline
+# Utah Weather Inversion ELT Pipeline
 
-A daily ELT pipeline that loads hourly weather data for five Utah cities into Snowflake with **Apache Airflow**, models it into a star schema with **dbt**, and uses it to build a **winter inversion proxy** for the Wasatch Front.
+A daily ELT pipeline that loads hourly weather data for four Utah cities into Snowflake with **Apache Airflow**, models it into a star schema with **dbt**, and uses it to build a **winter inversion proxy** to see if weather conditions were appropriate for an inversion.
 
 **Stack:** Airflow (Astro CLI, Docker) · Snowflake · dbt · Python · SQL · Open-Meteo API
+
+The graph below shows temperatures for 4 Wasatch cities. If the temperature in Park City (yellow) is ever above the valley temperature, there could be elevated pollution levels in the valley (inversion).
+RESULTS: On November 16th this year, there was a mild inversion in the morning. The morning of Nov 17th was another close day.
 
 ![Wasatch Front valley cities vs Park City hourly temperature](docs/images/Valley-vs-Park-City.png)
 
