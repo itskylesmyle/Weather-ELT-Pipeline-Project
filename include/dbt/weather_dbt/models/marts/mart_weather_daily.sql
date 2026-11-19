@@ -5,8 +5,8 @@ select
     min(f.temperature_f) as min_temp_f,
     max(f.temperature_f) as max_temp_f,
     round(avg(f.temperature_f), 1) as avg_temp_f,
-    round(sum(f.precipitation_mm), 1) as total_precip_mm,
-    max(f.wind_speed_kmh) as max_wind_kmh,
+    round(sum(f.precipitation_in), 2) as total_precip_in,
+    max(f.wind_speed_mph) as max_wind_mph,
     count(*) as hours_observed
 from {{ ref('fct_weather_hourly') }} f
 join {{ ref('dim_city') }} c

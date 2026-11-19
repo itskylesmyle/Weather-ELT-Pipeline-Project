@@ -10,14 +10,14 @@ flattened as (
         s.city_name,
         s.latitude,
         s.longitude,
+        round(s.payload:elevation::float * 3.28084) as elevation_ft,
         s.data_date,
-        s.payload:elevation::float as elevation_m,
         s.loaded_at,
         h.value::timestamp_ntz as observation_ts,
         round(s.payload:hourly:temperature_2m[h.index]::float * 9 / 5 + 32, 1) as temperature_f,
         s.payload:hourly:relative_humidity_2m[h.index]::float as humidity_pct,
-        s.payload:hourly:precipitation[h.index]::float as precipitation_mm,
-        s.payload:hourly:wind_speed_10m[h.index]::float as wind_speed_kmh
+        round(s.payload:hourly:precipitation[h.index]::float / 25.4, 3) as precipitation_in,
+        round(s.payload:hourly:wind_speed_10m[h.index]::float / 1.609344, 1) as wind_speed_mph
     from source s,
         lateral flatten(input => s.payload:hourly:time) h
 

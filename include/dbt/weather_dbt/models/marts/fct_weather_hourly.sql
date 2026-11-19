@@ -12,8 +12,8 @@ select
     observation_ts,
     temperature_f,
     humidity_pct,
-    precipitation_mm,
-    wind_speed_kmh,
+    precipitation_in,
+    wind_speed_mph,
     loaded_at
 from {{ ref('stg_weather_hourly') }}
 

@@ -38,3 +38,15 @@ models:
     columns:
       - name: city_key
         data_tests: [not_null]
+        
+  - name: mart_inversion_hourly
+    columns:
+      - name: inversion_key
+        data_tests: [unique, not_null]
+      - name: valley_city
+        data_tests: [not_null]
+
+  - name: mart_inversion_daily
+    columns:
+      - name: valley_city
+        data_tests: [not_null]

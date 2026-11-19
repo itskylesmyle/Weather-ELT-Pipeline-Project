@@ -3,7 +3,7 @@ select
     city_name,
     latitude,
     longitude,
-    elevation_m
+    elevation_ft
 from {{ ref('stg_weather_hourly') }}
 qualify row_number() over (
     partition by city_name
