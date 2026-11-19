@@ -13,15 +13,8 @@ RESULTS: On November 16th this year, there was a mild inversion in the morning. 
 
 ## What it does
 
-Every day, Airflow pulls hourly weather for Salt Lake City, Provo, Park City, Lehi and St George from the free Open-Meteo API and loads the raw JSON into Snowflake. dbt then flattens it into clean tables, converts units to US customary (°F, mph, inches, feet), builds a star schema and analysis marts, and runs data quality tests. If any test fails, the run fails.
+Every day, Airflow pulls hourly weather for Salt Lake City, Provo, Park City, and Lehi from the free Open-Meteo API and loads the raw JSON into Snowflake. dbt then flattens it into clean tables, converts units to US customary (°F, mph, inches, feet), builds a star schema and analysis marts, and runs data quality tests. If any test fails, the run fails.
 
-## Architecture
-
-![Data layers: Open-Meteo to Snowflake raw, staging, and marts](docs/images/Data-Layers.png)
-
-The Airflow DAG creates the raw table if needed, loads one city per task in parallel, then runs `dbt run` followed by `dbt test`:
-
-![Airflow DAG graph view](docs/images/Airflow-graph-view.png)
 
 ## Data model
 
@@ -36,7 +29,12 @@ The Airflow DAG creates the raw table if needed, loads one city per task in para
 | Marts | `mart_weather_daily` | Daily min, max and average per city |
 | Marts | `mart_inversion_hourly`, `mart_inversion_daily` | Inversion proxy, described below |
 
+
 ![Docker Desktop Setup](docs/images/Docker-Desktop.png)
+
+The Airflow DAG creates the raw table if needed, loads one city per task in parallel, then runs `dbt run` followed by `dbt test`:
+
+![Airflow DAG graph view](docs/images/Airflow-graph-view.png)
 
 ## Analysis: Wasatch Front inversion proxy
 
