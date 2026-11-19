@@ -29,9 +29,11 @@ Every day, Airflow pulls hourly weather for Salt Lake City, Provo, Park City, an
 | Marts | `mart_weather_daily` | Daily min, max and average per city |
 | Marts | `mart_inversion_hourly`, `mart_inversion_daily` | Inversion proxy, described below |
 
-Docker Desktop Setup
+## Docker Desktop Setup
 
 ![Docker Desktop Setup](docs/images/Docker-Desktop.png)
+
+## Airflow
 
 The Airflow DAG creates the raw table if needed, loads one city per task in parallel, then runs `dbt run` followed by `dbt test`:
 
@@ -48,18 +50,7 @@ The pipeline compares Park City (about 6,700 ft) against the valley cities, Salt
 - **`lapse_rate_f_per_1000ft`**: temperature change per 1,000 ft of elevation (about -3.6 on a normal day).
 - **`is_inversion_day`**: six or more inverted hours in a day.
 
-> **Caveat:** Open-Meteo values are modeled, not station measurements, and weather models smooth terrain, so this is a proxy and not an air quality measurement. A planned next step is to validate it against PM2.5 data.
 
-## Design decisions
-
-- **Raw JSON in a VARIANT column.** The raw layer stays a faithful copy of the source, so an API change cannot break the load. Parsing happens in dbt, where it is versioned and tested.
-- **Unit conversion in staging, not at the API.** The raw layer keeps the API's native metric units, and every downstream model inherits the US units from one place.
-- **Idempotent loads.** Each city task deletes its rows for the run date and re-inserts them inside one transaction, so reruns and backfills never create duplicates.
-- **Dynamic task mapping.** `extract_and_load.expand(city=CITIES)` creates one task per city at runtime. Adding a city is a one-line change.
-- **Incremental fact table.** `fct_weather_hourly` merges on a surrogate key and only processes newly loaded rows.
-- **Key-pair authentication and least privilege.** The pipeline runs as a Snowflake service user with a dedicated role that can only touch one database. No passwords are stored anywhere.
-- **dbt in an isolated virtualenv** inside the Airflow image, to avoid dependency conflicts with Airflow.
-- **Tests on every layer:** not-null, unique and relationship tests, plus custom tests for implausible temperatures and lapse rates.
 
 ## Run it yourself
 
